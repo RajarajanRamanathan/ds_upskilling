@@ -1,0 +1,316 @@
+Generative AI Developer Roadmap
+Module 1: Understanding the GenAI Landscape
+LLM Fundamentals
+What is a Large Language Model (LLM)
+What is a token
+Context window and its limits
+Temperature and randomness
+Hallucination — what it is and why it happens
+Determinism vs creativity
+Base model vs instruction-tuned model vs chat model
+Model Ecosystem
+OpenAI GPT-4o, GPT-4o mini
+Anthropic Claude 3.5 Sonnet, Claude 3 Haiku
+Google Gemini 1.5 Pro, Gemini Flash
+Mistral, Mixtral, Phi-3
+Cohere Command R+
+Closed-source vs open-source models
+Model Benchmarks
+LMSYS Chatbot Arena
+MMLU
+HumanEval
+How to read a model card
+Model Capabilities
+Text generation
+Code generation
+Vision (image understanding)
+Audio (speech-to-text, text-to-speech)
+Embeddings
+Function calling / tool use
+Document understanding
+Structured output generation
+Key Model Parameters
+temperature
+max_tokens
+top_p
+top_k
+stop sequences
+seed
+frequency_penalty
+presence_penalty
+system, user, assistant message roles
+Module 2: Working with LLM APIs
+API Fundamentals
+How REST API calls to LLMs work
+API key authentication
+The messages array structure
+Constructing a basic API request
+Reading and parsing API responses
+HTTP status codes from LLM APIs
+Rate limits — RPM and TPM
+Retry logic and exponential backoff
+Error types — rate limit, context exceeded, content policy, server error
+Timeout handling
+Streaming Responses
+What streaming is
+Server-Sent Events (SSE)
+Implementing streaming in Python
+Handling partial responses
+Handling stream interruptions
+Token Management
+Counting tokens before a call
+tiktoken for OpenAI
+Claude's token counter
+Estimating cost per request (input vs output tokens)
+Context window limits per model
+Truncation vs summarization vs chunking for long inputs
+Building a cost calculator
+Current Module
+
+Module 1: Understanding the GenAI Landscape
+
+Current Topic
+
+Topic 1: What is a Large Language Model (LLM)
+
+Topic 1: What is a Large Language Model (LLM)
+1. What Is It?
+Definition
+
+A Large Language Model (LLM) is an AI model trained on massive amounts of text (and, for many modern models, additional data such as code, images, and other modalities) to understand language, predict the next token in a sequence, and generate coherent responses.
+
+Examples include:
+
+ChatGPT
+Claude
+Gemini
+Mistral
+Cohere Command
+
+Although they appear to "understand" language, an LLM fundamentally learns statistical patterns in data that enable it to produce useful outputs.
+
+Purpose
+
+LLMs exist to make computers capable of working with human language in a flexible way.
+
+Before LLMs, many NLP systems were built for one specific task:
+
+Spam detection
+Translation
+Sentiment analysis
+Question answering
+
+An LLM provides a general-purpose language capability that can perform many tasks through prompting rather than task-specific programming.
+
+Why It Exists
+
+Natural language is how people communicate. Traditional software expects structured inputs and explicit rules.
+
+An LLM bridges that gap by allowing users to interact using everyday language, reducing the need for rigid interfaces and custom logic.
+
+Problem It Solves
+
+Without an LLM, you might need separate systems for:
+
+Chat
+Summarization
+Translation
+Code generation
+Document analysis
+Information extraction
+
+An LLM can support all of these capabilities with the same underlying model.
+
+Mental model:
+
+Traditional Software
+
+Task A -> Model A
+Task B -> Model B
+Task C -> Model C
+
+----------------------------
+
+LLM
+
+             Prompt
+                │
+                ▼
+        Large Language Model
+                │
+                ▼
+  Chat / Code / Summary /
+ Translation / Analysis /
+ Classification / Extraction
+2. Why It Matters
+Why the industry uses it
+
+LLMs reduce the effort required to build language-based applications. Instead of developing and maintaining separate ML models for each task, organizations can build multiple products on top of a single foundation model.
+
+Where it is used
+Customer support assistants
+Enterprise knowledge assistants
+Coding assistants
+Document processing
+Contract analysis
+Healthcare documentation
+Financial research
+Internal company search
+AI copilots
+Why it became important
+
+Advances in model scale, training techniques, and computing made it possible for one model to generalize across many language tasks with high quality, accelerating the adoption of Generative AI.
+
+3. How It Works
+
+At a high level:
+
+Documents
+Books
+Web pages
+Code
+Research papers
+Images (for multimodal models)
+
+          │
+          ▼
+
+Training
+
+          │
+
+Learns statistical patterns
+between tokens
+
+          │
+
+Produces a trained LLM
+
+          │
+
+User Prompt
+
+          │
+
+Tokenization
+
+          │
+
+Predict next token
+
+          │
+
+Repeat prediction
+
+          │
+
+Final response
+Core concepts
+Training data: Large collections of text (and sometimes code, images, etc.).
+Tokenization: Text is split into tokens before processing.
+Context window: The amount of information the model can consider at one time.
+Inference: The process of generating a response from a prompt.
+
+We'll cover tokenization and context windows in detail in the next topics.
+
+Analogy
+
+Imagine a highly experienced technical mentor who has read millions of books and documents. When asked a question, they don't search a database word-for-word; instead, they synthesize a response based on patterns and knowledge acquired over time. An LLM operates similarly, except it does so through learned statistical representations rather than human understanding.
+
+4. Real-World Examples
+ChatGPT
+Answers questions
+Writes code
+Summarizes documents
+Explains concepts
+Claude
+Long-document analysis
+Enterprise document workflows
+Knowledge-intensive tasks
+Gemini
+Multimodal interactions involving text, images, and other inputs.
+Enterprise AI Assistant
+
+An employee asks:
+
+"How many vacation days do I receive after five years?"
+
+The assistant may use an LLM to interpret the question and generate a response, often with retrieval from company policies (a pattern known as Retrieval-Augmented Generation, or RAG).
+
+Knowledge Search System
+
+The LLM interprets the user's intent, combines retrieved information with its language capabilities, and produces a conversational answer.
+
+5. Production Perspective
+Best practices
+Choose the model based on quality, latency, cost, and context length.
+Ground responses with enterprise data when accuracy is important.
+Monitor latency, token usage, and failure rates.
+Evaluate outputs continuously.
+Common mistakes
+Assuming the model always produces factual answers.
+Ignoring token costs.
+Using the largest model for every task.
+Not validating or constraining outputs where needed.
+Performance considerations
+Balance response quality against latency.
+Use smaller models for simpler tasks when appropriate.
+Cache repeated results where feasible.
+Scalability considerations
+Handle rate limits.
+Use asynchronous processing when appropriate.
+Batch requests where supported.
+Cost considerations
+Token usage drives cost.
+Prompt design influences token consumption.
+Model selection affects pricing and throughput.
+Security considerations
+Avoid sending unnecessary sensitive data.
+Apply access controls for enterprise information.
+Validate model outputs before triggering downstream actions.
+6. Project Perspective
+Enterprise Knowledge Assistant
+
+The LLM generates natural-language answers using retrieved internal documents.
+
+Employee Helpdesk Assistant
+
+It explains HR policies, IT procedures, or onboarding information conversationally.
+
+RAG Applications
+
+The LLM is responsible for generation, while a retrieval system supplies relevant context.
+
+AI Copilots
+
+The LLM assists with drafting, coding, analysis, and decision support.
+
+Internal Search Systems
+
+The LLM turns search results into concise, contextual responses.
+
+Enterprise GenAI Products
+
+The LLM is the reasoning and generation layer, integrated with retrieval, tools, databases, and business workflows.
+
+Connection to the broader roadmap: This topic introduces the central component of the GenAI ecosystem. As you progress, you'll learn how prompts guide LLM behavior, how embeddings and vector databases support retrieval, how RAG grounds responses in external knowledge, and how function calling and agents enable LLMs to interact with tools and enterprise systems.
+
+7. Interview Perspective
+Common interview questions
+
+Q1: What is a Large Language Model?
+
+Expected answer: A Large Language Model is a machine learning model trained on large-scale data to understand and generate language by predicting tokens based on context.
+
+Q2: Is an LLM a database?
+
+Expected answer: No. An LLM generates responses from learned patterns. It does not reliably store or retrieve exact facts like a database. Enterprise systems often combine LLMs with retrieval from external data sources.
+
+Q3: Why are LLMs useful?
+
+Expected answer: They provide a flexible, general-purpose language capability that can support many tasks without training a separate model for each one.
+
+Common mistakes
+Saying an LLM "knows everything."
+Confusing training with real-time knowledge retrieval.
+Assuming an LLM always produces correct answers.
