@@ -10,32 +10,10 @@ from crewai_tools import SerperDevTool
 from pydantic import BaseModel, Field
 from typing import List
 
-# ---------------------------------------------------------------
-# LLM CONFIG -- no OpenAI key required.
-# Uses a local Ollama model by default (100% free, runs on your
-# machine). Install: https://ollama.com/download, then:
-#     ollama pull llama3.2
-# Ollama runs automatically as a background service on port 11434.
-#
-# To use a hosted free-tier LLM instead (e.g. Groq -- very fast,
-# generous free tier, just needs a free API key from console.groq.com),
-# comment out the Ollama line below and uncomment the Groq one.
-# ---------------------------------------------------------------
-
 local_llm = LLM(
     model="ollama/llama3.1",
     base_url="http://localhost:11434",
 )
-
-# local_llm = LLM(model="groq/llama-3.3-70b-versatile")  # needs GROQ_API_KEY env var (free)
-
-# ---------------------------------------------------------------
-# 1. TOOLS
-# Agents are only as good as the tools you give them. Here we use
-# a built-in search tool. You can also write custom tools by
-# subclassing BaseTool -- useful for hitting your own internal
-# APIs (Jira, Confluence, an internal knowledge base, etc.)
-# ---------------------------------------------------------------
 
 class InternalDocsLookupTool(BaseTool):
     """Example of a custom tool -- swap this for a real internal API call."""
@@ -49,47 +27,24 @@ class InternalDocsLookupTool(BaseTool):
         # In production: call your Confluence/SharePoint/vector DB here.
         return f"[stub] No internal docs indexed yet for: '{query}'"
 
-
 internal_docs_tool = InternalDocsLookupTool()
 
-# SerperDevTool needs a free SERPER_API_KEY (serper.dev, 2500 free
-# searches/month, no credit card). If you don't have one yet, the
-# researcher simply runs without web search -- it'll rely on the
-# internal docs stub tool only. Add SERPER_API_KEY to your .env
-# once you're ready to enable real web search.
 if os.getenv("SERPER_API_KEY"):
     researcher_tools = [SerperDevTool(), internal_docs_tool]
 else:
     print("[info] SERPER_API_KEY not set -- researcher will run without web search.")
     researcher_tools = [internal_docs_tool]
 
-
-# ---------------------------------------------------------------
-# 2. STRUCTURED OUTPUT SCHEMA
-# Forcing structured output (instead of free-text) is what makes
-# CrewAI usable in production pipelines -- you can pass this JSON
-# straight into a downstream system.
-# ---------------------------------------------------------------
-
 class ResearchFinding(BaseModel):
     topic: str = Field(description="Sub-topic investigated")
     summary: str = Field(description="2-3 sentence summary of findings")
     source_confidence: str = Field(description="high | medium | low")
 
-
 class MarketReport(BaseModel):
     executive_summary: str
     findings: List[ResearchFinding]
     recommendation: str
-
-
-# ---------------------------------------------------------------
-# 3. AGENTS
-# role/goal/backstory aren't just flavor text -- they're injected
-# directly into the system prompt CrewAI builds for the underlying
-# LLM call. Precision here materially changes output quality.
-# ---------------------------------------------------------------
-
+    
 researcher = Agent(
     role="Senior Market Research Analyst",
     goal="Find accurate, current, well-sourced information on {topic}",
@@ -130,14 +85,6 @@ writer = Agent(
     allow_delegation=False,
 )
 
-
-# ---------------------------------------------------------------
-# 4. TASKS
-# `context=[...]` is the key wiring mechanism: it pipes one task's
-# output into the next task's prompt, without you manually
-# stitching strings together.
-# ---------------------------------------------------------------
-
 research_task = Task(
     description=(
         "Research the current state of {topic}. Cover: adoption trends, "
@@ -171,14 +118,6 @@ report_task = Task(
     output_pydantic=MarketReport,  # forces structured, parseable output
 )
 
-# ---------------------------------------------------------------
-# 5. CREW
-# Sequential process = task order below is execution order.
-# Swap Process.sequential -> Process.hierarchical to instead have
-# a manager LLM dynamically decide delegation (useful when task
-# order can't be known ahead of time).
-# ---------------------------------------------------------------
-
 research_crew = Crew(
     agents=[researcher, analyst, writer],
     tasks=[research_task, analysis_task, report_task],
@@ -186,7 +125,6 @@ research_crew = Crew(
     memory=True,          # enables short-term + entity memory across the run
     verbose=True,
 )
-
 
 if __name__ == "__main__":
     result = research_crew.kickoff(
