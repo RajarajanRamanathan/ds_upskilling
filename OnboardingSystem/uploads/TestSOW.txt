@@ -1,0 +1,13 @@
+Statement of Work
+
+Project: Customer Portal Development
+
+The project will be completed within 90 days.
+
+The vendor will provide application development
+and testing services.
+
+The customer will provide the required business
+requirements.
+
+Support will be provided after deployment.

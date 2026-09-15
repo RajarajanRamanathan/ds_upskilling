@@ -1,0 +1,49 @@
+STATEMENT OF WORK
+Customer Portal Modernization Project
+======================================================================
+
+SOW Number:         SOW-2026-0142
+Effective Date:     September 15, 2026
+Client:             Nimbus Retail Group, Inc.
+Service Provider:   Ideas2IT Technologies Pvt. Ltd.
+Project Manager:    Rajarajan R
+
+----------------------------------------------------------------------
+
+1. Purpose
+This Statement of Work ("SOW") is issued pursuant to the Master Services Agreement ("MSA") dated January 10, 2025, between Nimbus Retail Group, Inc. ("Client") and Ideas2IT Technologies Pvt. Ltd. ("Service Provider"). This SOW describes the services, deliverables, timeline, and fees for the Customer Portal Modernization Project.
+
+2. Scope of Work
+Service Provider shall design, develop, test, and deploy a modernized customer self-service portal, including migration of the existing .NET Framework application to .NET 8, integration with the Client's identity provider, and responsive UI redesign for mobile and desktop.
+
+3. Deliverables
+(a) Technical architecture document; (b) Migrated and refactored application source code; (c) Automated test suite with minimum 80% coverage; (d) Deployment runbooks; (e) User acceptance testing (UAT) sign-off report; (f) Production go-live support for 2 weeks post-launch.
+
+4. Timeline
+The project shall commence on September 15, 2026 and is estimated to conclude on February 27, 2027, spanning approximately 24 weeks across four phases: Discovery (3 weeks), Development (14 weeks), UAT (4 weeks), and Go-Live/Hypercare (3 weeks).
+
+5. Fees and Payment Terms
+Total fixed-price fee for this SOW is USD 186,000, payable in five milestone-based installments upon Client's written acceptance of each corresponding deliverable, net 30 days from invoice date.
+
+6. Roles and Responsibilities
+Service Provider shall provide a dedicated Project Manager, 2 Solution Architects, 6 Full-Stack Engineers, 2 QA Engineers, and 1 DevOps Engineer. Client shall provide timely access to subject matter experts, staging environments, and UAT participants within agreed SLAs.
+
+7. Assumptions and Constraints
+This SOW assumes Client-side infrastructure and third-party licenses will be available prior to the start of the Development phase. Any changes to scope will be managed through the Change Request process defined in the MSA.
+
+8. Acceptance Criteria
+Deliverables will be deemed accepted if Client does not provide written objections within 5 business days of submission, or upon successful completion of UAT test cases with no open Severity 1 or 2 defects.
+
+----------------------------------------------------------------------
+
+SIGNATURES
+
+For Nimbus Retail Group, Inc.
+Name: ______________________
+Title: ______________________
+Date: ______________________
+
+For Ideas2IT Technologies Pvt. Ltd.
+Name: ______________________
+Title: ______________________
+Date: ______________________

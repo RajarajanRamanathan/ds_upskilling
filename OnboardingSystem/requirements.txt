@@ -1,0 +1,10 @@
+streamlit
+pymupdf
+python-docx
+pytesseract
+pillow
+google-genai
+faiss-cpu
+numpy
+reportlab
+chromadb
